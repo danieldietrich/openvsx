@@ -16,6 +16,7 @@ import org.eclipse.openvsx.entities.PersistedLog;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.List;
 
 import org.eclipse.openvsx.entities.Extension;
 import org.eclipse.openvsx.entities.ExtensionReview;
@@ -65,6 +66,10 @@ public class RepositoryService {
 
     public Extension findExtensionByPublicId(String publicId) {
         return extensionRepo.findByPublicId(publicId);
+    }
+
+    public Streamable<Extension> findExtensionByPublicIdIn(List<String> publicIds) {
+        return extensionRepo.findByPublicIdIn(publicIds);
     }
 
     public Streamable<Extension> findActiveExtensions(Namespace namespace) {

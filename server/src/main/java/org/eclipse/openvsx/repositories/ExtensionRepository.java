@@ -16,6 +16,8 @@ import org.springframework.data.util.Streamable;
 import org.eclipse.openvsx.entities.Extension;
 import org.eclipse.openvsx.entities.Namespace;
 
+import java.util.List;
+
 public interface ExtensionRepository extends Repository<Extension, Long> {
 
     Streamable<Extension> findByNameIgnoreCase(String name);
@@ -29,6 +31,8 @@ public interface ExtensionRepository extends Repository<Extension, Long> {
     Extension findByNameIgnoreCaseAndNamespaceNameIgnoreCase(String name, String namespace);
 
     Extension findByPublicId(String publicId);
+
+    Streamable<Extension> findByPublicIdIn(List<String> publicIds);
 
     Streamable<Extension> findByActiveTrue();
 

@@ -16,10 +16,7 @@ import static org.eclipse.openvsx.adapter.ExtensionQueryResult.ExtensionFile.*;
 import static org.eclipse.openvsx.adapter.ExtensionQueryResult.Property.*;
 import static org.eclipse.openvsx.adapter.ExtensionQueryResult.Statistic.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
@@ -135,13 +132,11 @@ public class VSCodeAdapter {
     }
 
     private ExtensionQueryResult findExtensionsById(List<String> ids, int flags) {
-        var extensions = new ArrayList<ExtensionQueryResult.Extension>(ids.size());
-        for (var uuid : ids) {
-            var extension = repositories.findExtensionByPublicId(uuid);
-            if (extension != null && extension.isActive()) {
-                extensions.add(toQueryExtension(extension, flags));
-            }
-        }
+        var extensions = repositories
+                .findExtensionByPublicIdIn(ids)
+                .filter(extension -> extension != null && extension.isActive())
+                .map(extension -> toQueryExtension(extension, flags))
+                .toList();
         return toQueryResult(extensions);
     }
 
